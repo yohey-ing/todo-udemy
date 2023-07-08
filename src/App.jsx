@@ -19,7 +19,7 @@ export const App = () => {
         </ul>
       </div>
       <div>
-        <p>未完了のTODO</p>
+        <p>完了のTODO</p>
         <ul>
           <div>
             <li>あああああ</li>
