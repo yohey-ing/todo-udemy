@@ -13,12 +13,22 @@ export const App = () => {
     const newTodos = [...incompleteTodos, todoText];
     setIncompleteTodos(newTodos);
     setTodoText("");
-  }
+  };
   const onClickDelTodos = (index) => {
-    const newTodos = [...incompleteTodos];
-    newTodos.splice(index, 1)
-    setIncompleteTodos(newTodos);
-  }
+    const newTodos = [...incompleteTodos]; //押される前の配列をコピーしてくる
+    newTodos.splice(index, 1); //配列の中からindex番目のタスク1つ削除する
+    setIncompleteTodos(newTodos); //stateの更新
+  };
+
+  const onClickCompTodos = (index) => {
+    const newIncompleteTodos = [...incompleteTodos]; //押される前の配列をコピーする
+    newIncompleteTodos.splice(index, 1); //配列の中からindex番目のタスクを1つ削除する
+    
+    const newCompleteTodos = [...completeTodos, incompleteTodos[index]]; //配列をコピーして、最後に要素を追加する
+    console.log(newCompleteTodos);
+    setIncompleteTodos(newIncompleteTodos);
+    setCompleteTodos(newCompleteTodos);
+  };
   return (
     <>
       <div className="input-area">
@@ -34,7 +44,7 @@ export const App = () => {
               //keyを設定しないとエラーになる
               <div key={todo} className="list-row">
               <li>{todo}</li>
-              <button>完了</button>
+              <button onClick={() => onClickCompTodos(index)}>完了</button>
               <button onClick={() => onClickDelTodos(index)}>削除</button>
             </div>
             )
@@ -45,12 +55,13 @@ export const App = () => {
       <div className="complete-area">
         <p className="title">完了のTODO</p>
         <ul>
-          {completeTodos.map((todo) => {
+          {completeTodos.map((todo, index) => {
+            return (
           <div key={todo} className="list-row">
             <li>{todo}</li>
-            <button>完了</button>
-            <button>削除</button>
+            <button>戻す</button>
           </div>
+            );
           })}
         </ul>
       </div>
