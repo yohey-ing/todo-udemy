@@ -14,6 +14,11 @@ export const App = () => {
     setIncompleteTodos(newTodos);
     setTodoText("");
   }
+  const onClickDelTodos = (index) => {
+    const newTodos = [...incompleteTodos];
+    newTodos.splice(index, 1)
+    setIncompleteTodos(newTodos);
+  }
   return (
     <>
       <div className="input-area">
@@ -23,14 +28,14 @@ export const App = () => {
       <div className="incomplete-area">
         <p className="title">未完了のTODO</p>
         <ul>
-          {incompleteTodos.map((todo) => {
+          {incompleteTodos.map((todo, index) => {
             return (
               //mapなどを使用してループ処理でレンダリングを行う時は、何個目の要素かわからなくなってしまうため
               //keyを設定しないとエラーになる
               <div key={todo} className="list-row">
               <li>{todo}</li>
               <button>完了</button>
-              <button>削除</button>
+              <button onClick={() => onClickDelTodos(index)}>削除</button>
             </div>
             )
           })}
