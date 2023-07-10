@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 
 export const App = () => {
   const [todoText, setTodoText] = useState("");
-  const [incompleteTodos, setIncompleteTodos] = useState(['あああああ', 'いいいいいい']);
-  const [completeTodos, setCompleteTodos] = useState(['ううううう']);
+  const [incompleteTodos, setIncompleteTodos] = useState([]);
+  const [completeTodos, setCompleteTodos] = useState([]);
 
   const onChangeTodoText = (event) => setTodoText(event.target.value);
   const onClickAddTodos = () => {
@@ -25,9 +25,18 @@ export const App = () => {
     newIncompleteTodos.splice(index, 1); //配列の中からindex番目のタスクを1つ削除する
     
     const newCompleteTodos = [...completeTodos, incompleteTodos[index]]; //配列をコピーして、最後に要素を追加する
-    console.log(newCompleteTodos);
     setIncompleteTodos(newIncompleteTodos);
     setCompleteTodos(newCompleteTodos);
+    }
+  
+    const onClickBackTodos = (index) => {
+      const newCompleteTodos = [...completeTodos]; //配列コピー
+      newCompleteTodos.splice(index, 1); //index番目の要素を1つ削除
+
+      const newIncompleteTodos = [...incompleteTodos, completeTodos[index]]; //未完了の配列をコピーして末尾に完了のindex番目を追加する
+      setCompleteTodos(newCompleteTodos); //state更新
+      setIncompleteTodos(newIncompleteTodos);
+
   };
   return (
     <>
@@ -59,7 +68,7 @@ export const App = () => {
             return (
           <div key={todo} className="list-row">
             <li>{todo}</li>
-            <button>戻す</button>
+            <button onClick={() => onClickBackTodos(index)}>戻す</button>
           </div>
             );
           })}
