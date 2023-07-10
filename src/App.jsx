@@ -1,6 +1,9 @@
 // import React from "react";
 import "./styles.css";
 import React, { useState } from 'react';
+import { InputTodo } from './components/InputTodo';
+import { IncompleteTodo } from './components/IncompleteTodo';
+import { CompleteTodo } from './components/CompleteTodo';
 
 export const App = () => {
   const [todoText, setTodoText] = useState("");
@@ -40,40 +43,19 @@ export const App = () => {
   };
   return (
     <>
-      <div className="input-area">
-        <input placeholder="TODOを入力" value={todoText} onChange={onChangeTodoText} />
-        <button onClick={onClickAddTodos}>追加</button>
-      </div>
-      <div className="incomplete-area">
-        <p className="title">未完了のTODO</p>
-        <ul>
-          {incompleteTodos.map((todo, index) => {
-            return (
-              //mapなどを使用してループ処理でレンダリングを行う時は、何個目の要素かわからなくなってしまうため
-              //keyを設定しないとエラーになる
-              <div key={todo} className="list-row">
-              <li>{todo}</li>
-              <button onClick={() => onClickCompTodos(index)}>完了</button>
-              <button onClick={() => onClickDelTodos(index)}>削除</button>
-            </div>
-            )
-          })}
-        </ul>
-      </div>
+      <InputTodo todoText={todoText} onChange={onChangeTodoText} onClick={onClickAddTodos} />
+      {/* propsとしてtodoText、onChange、onClickを渡して、各々にstateを渡している */}
 
-      <div className="complete-area">
-        <p className="title">完了のTODO</p>
-        <ul>
-          {completeTodos.map((todo, index) => {
-            return (
-          <div key={todo} className="list-row">
-            <li>{todo}</li>
-            <button onClick={() => onClickBackTodos(index)}>戻す</button>
-          </div>
-            );
-          })}
-        </ul>
-      </div>
+      <IncompleteTodo 
+        todos={incompleteTodos} 
+        onClickCompTodos={onClickCompTodos} 
+        onClickDelTodos={onClickDelTodos}
+      />
+
+    <CompleteTodo
+      todos={completeTodos}
+      onClickBackTodos={onClickBackTodos}
+    />
     </>
   );
 };
